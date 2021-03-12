@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+<FrameLayout
+    android:id="@+id/info"
+    android:layout_width="match_parent"
+    android:layout_height="500dp">
+
+
+    <io.fotoapparat.view.CameraView
+        android:id="@+id/cameraView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+   <View
+       android:layout_width="300dp"
+       android:layout_height="300dp"
+       android:layout_gravity="center"
+       android:background="@drawable/rectangle"
+       />
+</FrameLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1"
+        android:textSize="20sp"
+        android:layout_below="@id/info"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20sp"
+        android:text=""/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button1"
+        android:text="Scan"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="20sp"/>
+
+</RelativeLayout>
