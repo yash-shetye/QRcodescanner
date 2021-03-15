@@ -5,7 +5,7 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
+
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -36,22 +36,37 @@ class MainActivity : AppCompatActivity() {
 
         initializeFotoapparat()
 
+        initilizeCam()
 
-        val button = findViewById<Button>(R.id.button1)
 
 
-        button.setOnClickListener {
-            if (isCameraPermissionGranted())
-                takeImage()
-            else requestCameraPermission()
-        }
 
-        if (!isCameraPermissionGranted()) requestCameraPermission()
+
     }
 
+    private fun initilizeCam() {
+
+
+        if (isCameraPermissionGranted()){
+            takeImage()
+        }
+
+        else {
+            requestCameraPermission()
+        }
+
+
+        if (!isCameraPermissionGranted()) requestCameraPermission()
+
+
+    }
+
+
     private fun takeImage() {
+        fotoapparat.start()
         fotoapparat.takePicture().toBitmap().whenAvailable {
             scanImageForBarcode(it!!)
+
         }
     }
 
@@ -66,13 +81,22 @@ class MainActivity : AppCompatActivity() {
                 Log.d("Barcode", "The code %s".format(barcodeValue))
                 Toast.makeText(baseContext, " Sucessfull",
                         Toast.LENGTH_LONG).show()
+
+
+
             }
         }
         task.addOnFailureListener {
 
 
             Log.d("ERROR", "An Exception occurred", it)
+
+            Toast.makeText(baseContext, " Failed",
+                    Toast.LENGTH_LONG).show()
         }
+
+        takeImage()
+
 
 
     }
@@ -85,6 +109,8 @@ class MainActivity : AppCompatActivity() {
             .into(cameraView)
             .previewScaleType(ScaleType.CenterCrop)
             .build()
+
+
     }
 
     private fun initializeBarcodeScanner() {
@@ -99,15 +125,14 @@ class MainActivity : AppCompatActivity() {
         barcodeScanner = BarcodeScanning.getClient(options)
     }
 
-    override fun onStart() {
-        super.onStart()
-        fotoapparat.start()
-    }
 
     override fun onStop() {
         super.onStop()
         fotoapparat.stop()
     }
+
+
+
 
     private fun isCameraPermissionGranted(): Boolean {
         return (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
